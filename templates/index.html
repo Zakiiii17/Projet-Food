@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Info</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            color: #e94560;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        p.subtitle {
+            color: #a0a0c0;
+            margin-bottom: 40px;
+            font-size: 1rem;
+        }
+
+        form {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        input[type="text"] {
+            padding: 14px 20px;
+            border-radius: 30px;
+            border: 2px solid #e94560;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 1rem;
+            width: 300px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]::placeholder {
+            color: #a0a0c0;
+        }
+
+        input[type="text"]:focus {
+            border-color: #f5a623;
+        }
+
+        button {
+            padding: 14px 28px;
+            border-radius: 30px;
+            border: none;
+            background: linear-gradient(135deg, #e94560, #f5a623);
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .error {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            color: #e94560;
+            padding: 14px 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card h2 {
+            color: #f5a623;
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 30px;
+            text-transform: capitalize;
+        }
+
+        .nutriments {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .nutriment-box {
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: transform 0.2s;
+        }
+
+        .nutriment-box:hover {
+            transform: translateY(-4px);
+        }
+
+        .nutriment-box .label {
+            color: #a0a0c0;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .nutriment-box .value {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nutriment-box .unit {
+            font-size: 0.85rem;
+            color: #a0a0c0;
+        }
+
+        .calories-box {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(233,69,96,0.3), rgba(245,166,35,0.3));
+            border: 1px solid rgba(233,69,96,0.4);
+        }
+
+        .calories-box .value {
+            font-size: 2.4rem;
+            color: #f5a623;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🥗 Food Info</h1>
+    <p class="subtitle">Recherche les informations nutritionnelles d'un aliment</p>
+
+    <form method="POST">
+        <input type="text" name="food_name" placeholder="Ex: tomate, falafels, beurre..." autofocus>
+        <button type="submit">Rechercher</button>
+    </form>
+
+    {% if error %}
+        <div class="error">⚠️ {{ error }}</div>
+    {% endif %}
+
+    {% if food_data %}
+        <div class="card">
+            <h2>{{ food_data.name }}</h2>
+            <div class="nutriments">
+                <div class="nutriment-box calories-box">
+                    <div class="label">Calories</div>
+                    <div class="value">{{ food_data.calories }}</div>
+                    <div class="unit">kcal / 100g</div>
+                </div>
+                <div class="nutriment-box">
+                    <div class="label">Lipides</div>
+                    <div class="value">{{ food_data.fat }}</div>
+                    <div class="unit">g / 100g</div>
+                </div>
+                <div class="nutriment-box">
+                    <div class="label">Glucides</div>
+                    <div class="value">{{ food_data.carbs }}</div>
+                    <div class="unit">g / 100g</div>
+                </div>
+                <div class="nutriment-box" style="grid-column: span 2;">
+                    <div class="label">Protéines</div>
+                    <div class="value">{{ food_data.proteins }}</div>
+                    <div class="unit">g / 100g</div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+</body>
+</html>
